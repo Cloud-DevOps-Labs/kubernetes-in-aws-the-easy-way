@@ -35,7 +35,7 @@ module "vpc" {
   name = local.name
   cidr = local.vpc_cidr
 
-  azs  = local.azs
+  azs             = local.azs
   public_subnets  = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k)]
   private_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 10)]
 
@@ -50,7 +50,7 @@ module "vpc" {
   manage_default_route_table    = true
   default_route_table_tags      = { Name = "${local.name}-default" }
   manage_default_security_group = true
-  default_security_group_tags   = { Name = "${local.name}-default" }  
+  default_security_group_tags   = { Name = "${local.name}-default" }
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${local.name}" = "shared"
@@ -62,7 +62,7 @@ module "vpc" {
     "kubernetes.io/role/internal-elb"     = "1"
   }
 
-    tags = local.tags
+  tags = local.tags
 }
 
 #
@@ -72,7 +72,7 @@ module "vpc" {
 module "eks_blueprints" {
   source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.21.0"
 
-  cluster_name    = local.name
+  cluster_name = local.name
 
   # EKS Cluster VPC and Subnet mandatory config
   vpc_id             = module.vpc.vpc_id
@@ -97,6 +97,43 @@ module "eks_blueprints" {
       node_group_name = local.node_group_name
       instance_types  = ["m5.xlarge"]
       subnet_ids      = module.vpc.private_subnets
+    }
+  }
+
+  # EKS TEAMS
+  platform_teams = {
+    admin = {
+      users = [
+        data.aws_caller_identity.current.arn
+      ]
+    }
+  }
+
+  application_teams = {
+    team-data = {
+      "labels" = {
+        "appName"     = "kubeflow",
+        "projectName" = "data-platform",
+        "environment" = "dev",
+        "domain"      = "company",
+        "uuid"        = "data",
+        "billingCode" = "platform",
+        "branch"      = "main"
+      }
+      "quota" = {
+        "requests.cpu"    = "10",
+        "requests.memory" = "20Gi",
+        "limits.cpu"      = "30",
+        "limits.memory"   = "50Gi",
+        "pods"            = "15",
+        "secrets"         = "10",
+        "services"        = "10"
+      }
+
+      ## Manifests Example: we can specify a directory with kubernetes manifests
+      # that can be automatically applied in the team-riker namespace.
+      manifests_dir = "../manifests/team-data"
+      users         = [data.aws_caller_identity.current.arn]
     }
   }
 
