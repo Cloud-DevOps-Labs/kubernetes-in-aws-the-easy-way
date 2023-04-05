@@ -59,7 +59,7 @@ module "eks" {
 ################################################################################
 
 module "eks_blueprints_kubernetes_addons" {
-  source = "../../modules/kubernetes-addons"
+  source = "../../terraform-aws-eks-blueprints/modules/kubernetes-addons"
 
   eks_cluster_id       = module.eks.cluster_name
   eks_cluster_endpoint = module.eks.cluster_endpoint
@@ -96,7 +96,7 @@ module "eks_blueprints_kubernetes_addons" {
     workloads = {
       path               = "envs/dev"
       repo_url           = "https://github.com/aws-samples/eks-blueprints-workloads.git"
-      add_on_application = false
+      add_on_application = true
     }
   }
 
