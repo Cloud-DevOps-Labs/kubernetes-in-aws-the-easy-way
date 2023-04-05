@@ -31,7 +31,7 @@ locals {
     values = {
       labels = {
         env   = local.env
-        myapp = "myvalue"
+        myapp = "kubeflow"
       }
       spec = {
         source = {
