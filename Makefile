@@ -38,3 +38,9 @@ format:
 		@echo "\n>>>>> terraform prepare for commit"
 		cd IaC; terraform validate
 		cd IaC; terraform fmt -recursive
+
+destroy:
+		@echo "\n>>>>> Cleanup solution"
+		cd IaC; terraform destroy -target=module.kubernetes_addons -auto-approve
+		cd IaC; terraform destroy -target=module.eks_blueprints -auto-approve
+		cd IaC; terraform destroy -auto-approve
