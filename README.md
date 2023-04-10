@@ -1,15 +1,32 @@
 # EKS Cluster with Blueprints
 
-This repository contains different tests related to the AWS EKS Blueprints.
+This branch of the repository contains the creation of a clean installation of EKS Blueprints from the workshop:
+[EKS Blueprints for Terraform](https://catalog.workshops.aws/eks-blueprints-terraform/en-US)
 
-Each branch contains an experiment from one of the examples in the official AWS repository:
+In it are created:
+* Platform and DevTeam teams
+* Deployment with ArgoCD
+* Blue/Green deployments with Argo Rollouts
+* Autoscaling with Karpenter
+* Observability with Kube Prometheus Stack
 
-https://github.com/aws-ia/terraform-aws-eks-blueprints
+All this is based on an EKS cluster with three m5.large nodes.
 
-The current branches are:
-
-* [argocd](https://github.com/Cloud-DevOps-Labs/kubernetes-in-aws-the-easy-way/tree/argocd)
-* [fargate](https://github.com/Cloud-DevOps-Labs/kubernetes-in-aws-the-easy-way/tree/fargate)
+Additionally it has been updated to use later revisions of the framework and addons.
 
 
-Additionally in this main branch there are some bash scripts to ease the installation on Cloud9.
+## Deployment
+
+```bash
+
+
+    # terraform init, plan & apply
+    $> make 
+
+    # Run an AWS script to setup the environment & install tools
+    $> make setup
+    
+    # tf validate & tf format
+    $> make commit
+
+```
