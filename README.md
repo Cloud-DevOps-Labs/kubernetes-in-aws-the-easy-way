@@ -1,16 +1,25 @@
 # EKS Cluster with Blueprints
 
-This repository contains different tests related to the AWS EKS Blueprints.
+This branch of the repository contains the installation of a kubeflow cluster based on the
+instructions on [Kubeflow on AWS])(https://awslabs.github.io/kubeflow-manifests/)
 
-Each branch contains an experiment from one of the examples in the official AWS repository:
-
-https://github.com/aws-ia/terraform-aws-eks-blueprints
-
-The current branches are:
-
-* [argocd](https://github.com/Cloud-DevOps-Labs/kubernetes-in-aws-the-easy-way/tree/argocd) => Example argocd [EKS Blueprints repository](https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/main/examples/argocd)
-* [fargate](https://github.com/Cloud-DevOps-Labs/kubernetes-in-aws-the-easy-way/tree/fargate) => Example Fargate-Serverless [EKS Blueprints repository](https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/main/examples/fargate-serverless)
-* [workshop](https://github.com/Cloud-DevOps-Labs/kubernetes-in-aws-the-easy-way/tree/workshop) => Workshop Studio [EKS Blueprints for Terraform](https://catalog.workshops.aws/eks-blueprints-terraform/)
+In it are created:
+* EKS Blueprints
+* Kubeflow
+* Observability with Kube Prometheus Stack
 
 
-Additionally in this main branch there are some bash scripts to ease the installation on Cloud9.
+## Deployment
+
+```bash
+
+    # terraform init, plan & apply
+    $> make 
+
+    # Run an AWS script to setup the environment & install tools
+    $> make setup
+    
+    # tf validate & tf format
+    $> make commit
+
+```
