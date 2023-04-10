@@ -70,11 +70,10 @@ module "vpc" {
 ################################################################################
 
 module "eks_blueprints" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.27.0"
-
-  cluster_name = local.name
+  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.28.0"
 
   # EKS Cluster VPC and Subnet mandatory config
+  cluster_name       = local.name
   vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnets
 
@@ -145,9 +144,9 @@ module "eks_blueprints" {
 ################################################################################
 
 module "kubernetes_addons" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.21.0/modules/kubernetes-addons"
+  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.28.0/modules/kubernetes-addons"
 
-  eks_cluster_id     = module.eks_blueprints.eks_cluster_id
+  eks_cluster_id = module.eks_blueprints.eks_cluster_id
 
   #---------------------------------------------------------------
   # ARGO CD ADD-ON
@@ -157,7 +156,7 @@ module "kubernetes_addons" {
   argocd_manage_add_ons = true # Indicates that ArgoCD is responsible for managing/deploying Add-ons.
 
   argocd_applications = {
-    addons    = local.addon_application
+    addons = local.addon_application
     #workloads = local.workload_application #We comment it for now
   }
 

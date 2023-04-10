@@ -3,11 +3,11 @@ locals {
   region          = data.aws_region.current.name
   cluster_version = "1.23"
 
-  vpc_cidr      = "10.0.0.0/16"
-  azs           = slice(data.aws_availability_zones.available.names, 0, 3)
+  vpc_cidr = "10.0.0.0/16"
+  azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
   node_group_name = "managed-ondemand"
-  env = "dev"
+  env             = "dev"
 
   #---------------------------------------------------------------
   # ARGOCD ADD-ON APPLICATION
@@ -35,14 +35,14 @@ locals {
       }
       spec = {
         source = {
-          repoURL        = local.workload_repo
+          repoURL = local.workload_repo
         }
-        blueprint                = "terraform"
-        clusterName              = local.name
+        blueprint   = "terraform"
+        clusterName = local.name
         #karpenterInstanceProfile = "${local.name}-${local.node_group_name}" # Activate to enable Karpenter manifests (only when Karpenter add-on will be enabled in the Karpenter module)
-        env                      = local.env
+        env = local.env
       }
-    }    
+    }
   }
 
   tags = {
