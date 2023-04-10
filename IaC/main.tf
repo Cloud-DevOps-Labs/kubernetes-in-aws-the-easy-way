@@ -1,4 +1,4 @@
-#
+################################################################################
 # Providers
 ################################################################################
 
@@ -24,7 +24,7 @@ provider "kubectl" {
   token                  = data.aws_eks_cluster_auth.this.token
 }
 
-#
+################################################################################
 # Networking
 ################################################################################
 
@@ -65,8 +65,8 @@ module "vpc" {
   tags = local.tags
 }
 
-#
-# Blueprint Setup
+################################################################################
+# EKS Blueprints Setup
 ################################################################################
 
 module "eks_blueprints" {
@@ -139,11 +139,12 @@ module "eks_blueprints" {
   tags = local.tags
 }
 
-#
+################################################################################
 # Kubernetes addons
 ################################################################################
 
 module "kubernetes_addons" {
+
   source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.28.0/modules/kubernetes-addons"
 
   eks_cluster_id = module.eks_blueprints.eks_cluster_id
@@ -156,8 +157,8 @@ module "kubernetes_addons" {
   argocd_manage_add_ons = true # Indicates that ArgoCD is responsible for managing/deploying Add-ons.
 
   argocd_applications = {
-    addons = local.addon_application
-    #workloads = local.workload_application #We comment it for now
+    addons    = local.addon_application
+    workloads = local.workload_application # Uncomment to load workloads for partial repo
   }
 
   argocd_helm_config = {
@@ -174,10 +175,32 @@ module "kubernetes_addons" {
   # https://aws-ia.github.io/terraform-aws-eks-blueprints/add-ons/
   #---------------------------------------------------------------
 
-
   enable_aws_load_balancer_controller  = true
   enable_amazon_eks_aws_ebs_csi_driver = true
   enable_aws_for_fluentbit             = true
   enable_metrics_server                = true
+  #enable_argo_rollouts                 = true
+  enable_karpenter                     = true
+  #enable_kubecost                      = true
+  #enable_kube_prometheus_stack         = true
 
+  karpenter_node_iam_instance_profile        = module.karpenter.instance_profile_name
+  karpenter_enable_spot_termination_handling = true
+  #karpenter_sqs_queue_arn                    = module.karpenter.queue_arn
+}
+
+################################################################################
+# Karpenter
+################################################################################
+
+# Creates Karpenter native node termination handler resources and IAM instance profile
+
+module "karpenter" {
+  source  = "terraform-aws-modules/eks/aws//modules/karpenter"
+  version = "~> 19.9"
+
+  cluster_name = local.name
+  create_irsa  = false # IRSA will be created by the kubernetes-addons module
+
+  tags = local.tags
 }
