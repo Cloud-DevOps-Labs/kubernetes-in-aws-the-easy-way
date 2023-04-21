@@ -11,7 +11,7 @@ The current branches are:
 * [argocd](https://github.com/Cloud-DevOps-Labs/kubernetes-in-aws-the-easy-way/tree/argocd) => Example argocd [EKS Blueprints repository](https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/main/examples/argocd)
 * [fargate](https://github.com/Cloud-DevOps-Labs/kubernetes-in-aws-the-easy-way/tree/fargate) => Example Fargate-Serverless [EKS Blueprints repository](https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/main/examples/fargate-serverless)
 * [workshop](https://github.com/Cloud-DevOps-Labs/kubernetes-in-aws-the-easy-way/tree/workshop) => Workshop Studio [EKS Blueprints for Terraform](https://catalog.workshops.aws/eks-blueprints-terraform/)
-* [kubeflow](https://github.com/Cloud-DevOps-Labs/kubernetes-in-aws-the-easy-way/tree/kubeflow) => Kubeflow with RDS & S3 [Kubeflow on AWS](https://awslabs.github.io/kubeflow-manifests/)
+* [kubeflow](https://github.com/Cloud-DevOps-Labs/kubernetes-in-aws-the-easy-way/tree/kubeflow) => Kubeflow with RDS & S3 [Kubeflow on AWS](https://awslabs.github.io/kubeflow-manifests/) *WIP*
 
 
 Additionally in this main branch there are some bash scripts to ease the installation on Cloud9.
